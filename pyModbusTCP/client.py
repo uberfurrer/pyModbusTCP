@@ -531,7 +531,7 @@ class ModbusClient:
         registers = [None] * reg_nb
         # fill registers list with register items
         for i, item in enumerate(registers):
-            registers[i] = struct.unpack('>H', f_regs[i * 2:i * 2 + 2])[0]
+            registers[i] = struct.unpack('>h', f_regs[i * 2:i * 2 + 2])[0]
         # return registers list
         return registers
 
@@ -593,7 +593,7 @@ class ModbusClient:
             return None
         # build frame
         tx_buffer = self._mbus_frame(const.WRITE_SINGLE_REGISTER,
-                                     struct.pack('>HH', reg_addr, reg_value))
+                                     struct.pack('>Hh', reg_addr, reg_value))
         # send request
         s_send = self._send_mbus(tx_buffer)
         # check error
@@ -611,7 +611,7 @@ class ModbusClient:
             self.close()
             return None
         # register extract
-        rx_reg_addr, rx_reg_value = struct.unpack('>HH', f_body)
+        rx_reg_addr, rx_reg_value = struct.unpack('>Hh', f_body)
         # check register write
         is_ok = (rx_reg_addr == reg_addr) and (rx_reg_value == reg_value)
         return True if is_ok else None
