@@ -588,7 +588,7 @@ class ModbusClient:
         if not (0 <= int(reg_addr) <= 65535):
             self.__debug_msg('write_single_register(): reg_addr out of range')
             return None
-        if not (0 <= int(reg_value) <= 65535):
+        if not (-32768 <= int(reg_value) <= 32767):
             self.__debug_msg('write_single_register(): reg_value out of range')
             return None
         # build frame
